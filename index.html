@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テーパリング＿覇者への道</title>
+    <style>
+        /* Google Fontsから書道風フォントを読み込み */
+        @import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            /* ★★★ 修正点：フォントと色を変更 */
+            font-family: 'Yuji Syuku', serif;
+            color: #922749; /* 臙脂色 */
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #922749;
+            padding-bottom: 10px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 15px;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="date"], input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .input-note {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #output {
+            margin-top: 30px;
+        }
+        #tau-display {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #34495e;
+            background-color: #ecf0f1;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ecf0f1;
+            color: #34495e;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>覇者への道　～テーパリング～</h1>
+        
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="raceDate">① 試合日</label>
+                <input type="date" id="raceDate">
+            </div>
+            <div class="input-group">
+                <label for="taperDuration">② テーパリング期間 (日)</label>
+                <input type="number" id="taperDuration" value="10" min="1">
+                <p class="input-note">標準は8-14日、練習が積めていない場合さらに短く</p>
+            </div>
+            <div class="input-group">
+                <label for="finalLoad">③ 最終日負荷 (%)</label>
+                <input type="number" id="finalLoad" value="50" min="1" max="99">
+                <p class="input-note">標準は40-60%に設定</p>
+            </div>
+            <div class="input-group">
+                <label for="initialDistance">④ 1日の平均走行距離 (km)</label>
+                <input type="number" id="initialDistance" value="20" min="1">
+                <p class="input-note">直近3週間の一日の平均走行距離</p>
+            </div>
+        </div>
+
+        <button id="calculateBtn">計画を作成</button>
+
+        <div id="output"></div>
+    </div>
+
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // 1. 入力値の取得
+            const raceDateStr = document.getElementById('raceDate').value;
+            const taperDuration = parseInt(document.getElementById('taperDuration').value);
+            const finalLoad = parseFloat(document.getElementById('finalLoad').value);
+            // ★★★ 修正点：1日の平均走行距離を直接取得
+            const initialDistance = parseFloat(document.getElementById('initialDistance').value);
+
+            if (!raceDateStr || isNaN(taperDuration) || isNaN(finalLoad) || isNaN(initialDistance) || taperDuration < 2 || initialDistance <= 0) {
+                alert('テーパリング期間は2日以上で、すべての項目に有効な数値を入力してください。');
+                return;
+            }
+
+            // 2. τ（タウ）の計算
+            const tau = -taperDuration / Math.log(finalLoad / 100);
+
+            // 3. スケジュールの計算
+            let schedule = [];
+            const raceDate = new Date(raceDateStr + 'T00:00:00');
+
+            for (let daysOut = taperDuration; daysOut >= 0; daysOut--) {
+                const currentDate = new Date(raceDate.getTime());
+                currentDate.setDate(raceDate.getDate() - daysOut);
+
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                const dateString = `${year}/${month}/${day}`;
+
+                let distanceStr = '';
+                let daysOutStr = `${daysOut}日前`;
+
+                if (daysOut > 0) {
+                    const i = taperDuration - daysOut + 1;
+                    const distance = initialDistance * Math.exp(-(i - 1) / tau);
+                    distanceStr = `${distance.toFixed(1)} km`;
+                } else {
+                    daysOutStr = `0日前 (レース当日)`;
+                }
+                
+                schedule.push({
+                    daysOut: daysOutStr,
+                    date: dateString,
+                    distance: distanceStr
+                });
+            }
+
+            // 4. 結果の表示
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `
+                <h2>テーパリング計画</h2>
+                <div id="tau-display">
+                    計算されたτ（タウ）の値: <strong>${tau.toFixed(4)}</strong><br>
+                    計算基準の1日平均走行距離: <strong>${initialDistance.toFixed(1)} km</strong>
+                </div>
+            `;
+            
+            let tableHTML = '<table><thead><tr><th>レースからの日数</th><th>日付</th><th>推奨走行距離 (km)</th></tr></thead><tbody>';
+            
+            schedule.forEach(day => {
+                tableHTML += `<tr><td>${day.daysOut}</td><td>${day.date}</td><td>${day.distance}</td></tr>`;
+            });
+
+            tableHTML += '</tbody></table>';
+            outputDiv.innerHTML += tableHTML;
+        });
+    </script>
+
+</body>
+</html>
