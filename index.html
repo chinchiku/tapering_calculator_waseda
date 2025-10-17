@@ -38,6 +38,31 @@
             border-bottom: 2px solid #922749;
             padding-bottom: 10px;
         }
+
+        .principles {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.principles h2 {
+    font-family: 'Yuji Syuku', serif;
+    color: #c0c0c0; /* 銀色 */
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    border: none;
+    padding: 0;
+}
+.principles ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: left;
+}
+.principles li {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+        
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -118,7 +143,15 @@
 
     <div class="container">
         <h1>覇者への道　～テーパリング～</h1>
-        
+
+        <div class="principles">
+            <h2>原則</h2>
+            <ul>
+                <li><strong>強度</strong> → 維持</li>
+                <li><strong>量</strong> → 40-60％減らす</li>
+                <li><strong>頻度</strong> → 維持（80％程度）</li>
+            </ul>
+        </div>
         <div class="input-grid">
             <div class="input-group">
                 <label for="raceDate">① 試合日</label>
@@ -216,4 +249,5 @@
     </script>
 
 </body>
+
 </html>
