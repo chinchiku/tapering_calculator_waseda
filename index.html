@@ -218,7 +218,7 @@
 
                 if (daysOut > 0) {
                     const i = taperDuration - daysOut + 1;
-                    const distance = initialDistance * Math.exp(-(i - 1) / tau);
+                    const distance = initialDistance * Math.exp(-i / tau);
                     distanceStr = `${distance.toFixed(1)} km`;
                 } else {
                     daysOutStr = `0日前 (レース当日)`;
@@ -255,5 +255,6 @@
 </body>
 
 </html>
+
 
 
