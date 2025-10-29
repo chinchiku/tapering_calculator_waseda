@@ -110,20 +110,18 @@
             flex-shrink: 0; /* ボタンが縮まないように */
             margin-left: 8px;
         }
-        .help-popup {
-            display: none;
-            position: absolute;
-            background-color: #34495e;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            width: 90%;
-            max-width: 540px;
-            font-size: 14px;
-            z-index: 10;
-            margin-top: 5px;
-        }
+	.help-popup {
+    	/* display: none; を削除 */
+    	visibility: hidden; /* ★ 変更：最初は見えない */
+    	opacity: 0;         /* ★ 追加：最初は透明 */
+    	transition: opacity 0.2s, visibility 0.2s; /* ★ 追加：アニメーション */
+    	position: absolute;
+    	background-color: #34495e;
+/* .help-popup スタイルの定義の後に、以下を追加 */
+	.help-popup.show {
+    	visibility: visible; /* ★ 追加：表示 */
+    	opacity: 1;         /* ★ 追加：不透明に */
+	}
         /* ★★★ ここまでが「？」ボタンの修正 ★★★ */
         
         input[type="date"], input[type="number"] {
@@ -308,38 +306,44 @@
             tableHTML += '</tbody></table>';
             outputDiv.innerHTML += tableHTML;
         });
-        document.querySelectorAll('.help-icon').forEach(icon => {
+        /* ▼▼▼ ここから「？」ボタン機能 ▼▼▼ */
+    // ヘルプボタンの機能をまとめて設定（クリックでトグル式）
+    document.querySelectorAll('.help-icon').forEach(icon => {
         const targetId = icon.getAttribute('data-target');
         const popup = document.getElementById(targetId);
-
         if (!popup) return;
 
-        const showHelp = () => {
-            popup.style.display = 'block';
-        };
+        icon.addEventListener('click', (e) => {
+            e.stopPropagation(); // クリックイベントが外側に伝わらないようにする
 
-        const hideHelp = () => {
-            popup.style.display = 'none';
-        };
+            // 自分以外のポップアップが既に開いていたら閉じる
+            document.querySelectorAll('.help-popup.show').forEach(openPopup => {
+                if (openPopup !== popup) {
+                    openPopup.classList.remove('show');
+                }
+            });
 
-        // PC：マウスで長押し
-        icon.addEventListener('mousedown', showHelp);
-        icon.addEventListener('mouseup', hideHelp);
-        icon.addEventListener('mouseleave', hideHelp); // ボタンからマウスが離れたら消す
-
-        // スマホ：タップで長押し
-        icon.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // 画面スクロールを防ぐ
-            showHelp();
+            // 自分の表示・非表示を切り替える
+            popup.classList.toggle('show');
         });
-        icon.addEventListener('touchend', hideHelp);
-        icon.addEventListener('touchcancel', hideHelp);
     });
+
+    // ポップアップの外側をクリックしたら、開いているポップアップを閉じる
+    document.addEventListener('click', (e) => {
+        // クリックしたのがポップアップ自身やアイコンでなければ
+        if (!e.target.closest('.help-popup') && !e.target.closest('.help-icon')) {
+            document.querySelectorAll('.help-popup.show').forEach(openPopup => {
+                openPopup.classList.remove('show');
+            });
+        }
+    });
+/* ▲▲▲ ここまで「？」ボタン機能 ▲▲▲ */
     </script>
 
 </body>
 
 </html>
+
 
 
 
