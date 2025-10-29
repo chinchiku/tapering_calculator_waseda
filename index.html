@@ -197,21 +197,23 @@
                 <input type="number" id="taperDuration" value="10" min="1">
                 <p class="input-note">標準は8-14日</p>
                 <div id="help-duration" class="help-popup">
-                    Wang et al. (2023) のメタ分析では、8-14日間が最も高い効果を示しました。ただし、Mujika & Padilla (2003) によれば、期間は個人の疲労度に合わせて4-28日と幅広く設定可能です。練習が積めていない（疲労が少ない）場合は、体力の低下を防ぐため、より短く設定するのが一般的です。
-            </div>
+                    1. 練習が積めていない → 短く<br>
+                    2. 試合の距離が短い → 短く
+                </div>
             <div class="input-group">
                 <label for="finalLoad">③ 最終日負荷 (%)
                     <span class="help-icon" data-target="help-load">?</span>
                 </label>
                 <input type="number" id="finalLoad" value="50" min="1" max="99">
                 <p class="input-note">標準は40-60%</p>
+                <div id="help-load" class="help-popup">
+                    1. 練習が積めていない → 大きく
+                    2. 疲労が抜けにくい → 小さく
             </div>
             <div class="input-group">
                 <label for="initialDistance">④ 1日の平均走行距離 (km)</label>
                 <input type="number" id="initialDistance" value="20" min="1">
                 <p class="input-note">直近3週間の一日の平均走行距離（月曜のノーランなど外れ値は除く）</p>
-                <div id="help-load" class="help-popup">
-                    テーパー初日の練習量（100%）に対し、テーパー最終日までに何%まで量を減らすかの目標値です。Wang et al. (2023) の分析では総量41-60%の削減が最も効果的とされました。これは最終日負荷を40-60%に設定することに相当します。
             </div>
         </div>
 
@@ -319,6 +321,7 @@
 </body>
 
 </html>
+
 
 
 
