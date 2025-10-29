@@ -30,7 +30,6 @@
         }
         h1 {
             text-align: center;
-            /* ★★★ 修正点：フォントと色を変更 */
             font-family: 'Yuji Syuku', serif;
             color: #922749; /* 臙脂色 */
             font-size: 2.5em;
@@ -39,49 +38,94 @@
             padding-bottom: 10px;
         }
 
+        /* ★★★ 「原則」欄の修正 ★★★ */
         .principles {
-    margin-bottom: 30px;
-    text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px; /* 余白を広げる */
+        }
+        .principles h2 {
+            font-family: 'Yuji Syuku', serif;
+            color: #000; /* ★ 濃い黒に変更 */
+            font-size: 2em; /* 文字を大きく */
+            margin-top: 0; /* 上の余白を削除 */
+            margin-bottom: 15px;
+            text-align: center;
+            border: none;
+            padding: 0;
+        }
+        .principles ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto; /* 中央寄せ */
+            max-width: 250px; /* 横幅を指定 */
+            text-align: left;
+        }
+        .principles li {
+            font-size: 1.1em; /* 文字を大きく */
+            font-weight: 500;
+            margin-bottom: 8px; /* 行間を広げる */
+        }
 
-    border: 1px solid #e0e0e0; /* 線の太さ、種類、色を指定 */
-    border-radius: 8px; /* 角を少し丸くする */
-    padding: 15px; /* 内側の余白を追加 */        
-}
-.principles h2 {
-    font-family: 'Yuji Syuku', serif;
-    color: #c0c0c0; /* 銀色 */
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    border: none;
-    padding: 0;
-}
-.principles ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    display: inline-block;
-    text-align: left;
-}
-.principles li {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-        
+        /* ★★★ レイアウトバランスの修正 ★★★ */
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px 15px;
             margin-bottom: 25px;
+            align-items: start; /* ★ 上揃えにしてバランスを修正 */
         }
         .input-group {
             display: flex;
             flex-direction: column;
         }
+
+        /* ★★★ 「？」ボタンの修正 ★★★ */
+        .label-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* ラベルと「？」を両端に配置 */
+            margin-bottom: 5px;
+        }
         label {
             font-weight: 600;
-            margin-bottom: 5px;
             color: #555;
         }
+        .help-icon {
+            display: inline-flex; /* ★ flexboxに変更 */
+            align-items: center;
+            justify-content: center;
+            width: 22px;  /* 少し大きく */
+            height: 22px; /* 少し大きく */
+            line-height: 22px;
+            text-align: center;
+            background-color: #95a5a6;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            font-size: 14px; /* 文字サイズ調整 */
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0; /* ボタンが縮まないように */
+            margin-left: 8px;
+        }
+        .help-popup {
+            display: none;
+            position: absolute;
+            background-color: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 540px;
+            font-size: 14px;
+            z-index: 10;
+            margin-top: 5px;
+        }
+        /* ★★★ ここまでが「？」ボタンの修正 ★★★ */
+        
         input[type="date"], input[type="number"] {
             padding: 10px;
             border: 1px solid #ccc;
@@ -140,35 +184,6 @@
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
-        .help-icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    background-color: #95a5a6;
-    color: white;
-    font-weight: bold;
-    border-radius: 50%;
-    font-size: 12px;
-    margin-left: 5px;
-    cursor: pointer;
-    user-select: none; /* 長押しでテキストが選択されるのを防ぐ */
-}
-.help-popup {
-    display: none; /* 通常は隠しておく */
-    position: absolute;
-    background-color: #34495e;
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    width: 90%;
-    max-width: 540px;
-    font-size: 14px;
-    z-index: 10;
-    margin-top: 5px; /* ボタンとの隙間 */
-}
         }
     </style>
 </head>
@@ -191,25 +206,29 @@
                 <input type="date" id="raceDate">
             </div>
             <div class="input-group">
-                <label for="taperDuration">② テーパリング期間 (日)
+				<div class="label-group">
+                	<label for="taperDuration">② テーパリング期間 (日)</label>
                     <span class="help-icon" data-target="help-duration">?</span>
-                </label>
+				</div>
                 <input type="number" id="taperDuration" value="10" min="1">
                 <p class="input-note">標準は8-14日</p>
                 <div id="help-duration" class="help-popup">
                     1. 練習が積めていない → 短く<br>
                     2. 試合の距離が短い → 短く
                 </div>
+			</div>
             <div class="input-group">
-                <label for="finalLoad">③ 最終日負荷 (%)
+				<div class="label-group">
+                	<label for="finalLoad">③ 最終日負荷 (%)
                     <span class="help-icon" data-target="help-load">?</span>
-                </label>
+                </div>
                 <input type="number" id="finalLoad" value="50" min="1" max="99">
                 <p class="input-note">標準は40-60%</p>
                 <div id="help-load" class="help-popup">
                     1. 練習が積めていない → 大きく
                     2. 疲労が抜けにくい → 小さく
-            </div>
+            	</div>
+			</div>
             <div class="input-group">
                 <label for="initialDistance">④ 1日の平均走行距離 (km)</label>
                 <input type="number" id="initialDistance" value="20" min="1">
@@ -321,6 +340,7 @@
 </body>
 
 </html>
+
 
 
 
