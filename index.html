@@ -133,20 +133,22 @@
         
         /* ポップアップ */
         .help-popup {
-            visibility: hidden; /* ★ JSで .show をトグルする */
+            visibility: hidden;
             opacity: 0;
             transition: opacity 0.2s, visibility 0.2s;
             position: absolute;
             background-color: #34495e;
             color: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 10px; /* ★ 内側の余白を少し小さく */
+            border-radius: 6px; /* ★ 角の丸みを少し小さく */
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            width: 150%; /* ★ 横幅を広げて読みやすく */
-            font-size: 14px;
+            width: auto; /* ★ 横幅を自動調整に */
+            max-width: calc(100% - 20px); /* ★ 横幅がコンテナを超えないように制限 */
+            font-size: 13px; /* ★ 文字サイズを少し小さく */
             z-index: 10;
-            margin-top: 30px; /* ★ 入力欄と被らないように調整 */
-            left: -25%; /* ★ 位置調整 */
+            margin-top: 35px; /* ★ 入力欄からの距離を調整 */
+            left: 0; /* ★ 左端に合わせる */
+            box-sizing: border-box; /* ★ paddingを含めて幅計算 */
         }
         .help-popup.show {
             visibility: visible;
@@ -268,7 +270,7 @@
                 <input type="number" id="finalLoad" value="50" min="1" max="99">
                 <p class="input-note">標準は40-60%</p>
                 <div id="help-load" class="help-popup">
-                    1. 練習が積めていない → 大きく
+                    1. 練習が積めていない → 大きく<br>
 					2. 疲労が抜けにくい → 小さく
                 </div>
             </div>
@@ -388,3 +390,4 @@
 
 </body>
 </html>
+
