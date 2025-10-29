@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>テーパリング＿覇者への道</title>
+    <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
     <style>
-        /* Google Fontsから書道風フォントを読み込み */
-        @import url('https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap');
+        /* ★★★ デザイン修正版 CSS ★★★ */
+
+        /* 基本設定 */
+        :root {
+            --main-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --title-font: 'Yuji Syuku', serif;
+            --enji-color: #922749; /* 臙脂色 */
+            --light-gray: #f0f0f0;
+            --dark-text: #333;
+            --light-text: #555;
+            --bg-color: #fcfaf5; /* ★ 暖かいクリーム色の背景 */
+            --border-color: #ddd;
+        }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
+            font-family: var(--main-font);
+            background-color: var(--bg-color); /* ★ 背景色を変更 */
+            color: var(--dark-text);
             line-height: 1.6;
             display: flex;
             justify-content: center;
@@ -20,36 +32,41 @@
             margin: 0;
             padding: 20px;
         }
+        
+        /* メインコンテナ */
         .container {
             background-color: #fff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px; /* ★ 角を少し丸く */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08); /* ★ 影を柔らかく */
             width: 100%;
             max-width: 600px;
         }
+
+        /* タイトル */
         h1 {
             text-align: center;
-            font-family: 'Yuji Syuku', serif;
-            color: #922749; /* 臙脂色 */
+            font-family: var(--title-font);
+            color: var(--enji-color);
             font-size: 2.5em;
             margin-bottom: 25px;
-            border-bottom: 2px solid #922749;
+            border-bottom: 2px solid var(--enji-color);
             padding-bottom: 10px;
         }
 
-        /* ★★★ 「原則」欄の修正 ★★★ */
+        /* 原則 */
         .principles {
             margin-bottom: 30px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--enji-color); /* ★ 枠線も臙脂色に */
             border-radius: 8px;
-            padding: 20px; /* 余白を広げる */
+            padding: 20px;
+            background-color: #fffafa; /* ★ ほんのり色付け */
         }
         .principles h2 {
-            font-family: 'Yuji Syuku', serif;
-            color: #000; /* ★ 濃い黒に変更 */
-            font-size: 2em; /* 文字を大きく */
-            margin-top: 0; /* 上の余白を削除 */
+            font-family: var(--title-font);
+            color: var(--dark-text); /* ★ 黒に変更 */
+            font-size: 2em;
+            margin-top: 0;
             margin-bottom: 15px;
             text-align: center;
             border: none;
@@ -58,101 +75,125 @@
         .principles ul {
             list-style: none;
             padding: 0;
-            margin: 0 auto; /* 中央寄せ */
-            max-width: 250px; /* 横幅を指定 */
+            margin: 0 auto;
+            max-width: 250px;
             text-align: left;
         }
         .principles li {
-            font-size: 1.1em; /* 文字を大きく */
+            font-size: 1.1em;
             font-weight: 500;
-            margin-bottom: 8px; /* 行間を広げる */
+            margin-bottom: 8px;
         }
 
-        /* ★★★ レイアウトバランスの修正 ★★★ */
+        /* 入力フォーム */
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px 15px;
             margin-bottom: 25px;
-            align-items: start; /* ★ 上揃えにしてバランスを修正 */
+            align-items: start;
         }
         .input-group {
             display: flex;
             flex-direction: column;
+            position: relative; /* ポップアップの位置の基準 */
         }
-
-        /* ★★★ 「？」ボタンの修正 ★★★ */
         .label-group {
             display: flex;
             align-items: center;
-            justify-content: space-between; /* ラベルと「？」を両端に配置 */
+            justify-content: space-between;
             margin-bottom: 5px;
         }
         label {
             font-weight: 600;
-            color: #555;
+            color: var(--light-text);
         }
+        
+        /* ？ボタン */
         .help-icon {
-            display: inline-flex; /* ★ flexboxに変更 */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 22px;  /* 少し大きく */
-            height: 22px; /* 少し大きく */
-            line-height: 22px;
-            text-align: center;
-            background-color: #95a5a6;
+            width: 22px;
+            height: 22px;
+            background-color: var(--enji-color); /* ★ 臙脂色に変更 */
             color: white;
             font-weight: bold;
             border-radius: 50%;
-            font-size: 14px; /* 文字サイズ調整 */
+            font-size: 14px;
             cursor: pointer;
             user-select: none;
-            flex-shrink: 0; /* ボタンが縮まないように */
+            flex-shrink: 0;
             margin-left: 8px;
+            transition: transform 0.2s;
         }
-	.help-popup {
-    	/* display: none; を削除 */
-    	visibility: hidden; /* ★ 変更：最初は見えない */
-    	opacity: 0;         /* ★ 追加：最初は透明 */
-    	transition: opacity 0.2s, visibility 0.2s; /* ★ 追加：アニメーション */
-    	position: absolute;
-    	background-color: #34495e;
-/* .help-popup スタイルの定義の後に、以下を追加 */
-	.help-popup.show {
-    	visibility: visible; /* ★ 追加：表示 */
-    	opacity: 1;         /* ★ 追加：不透明に */
-	}
-        /* ★★★ ここまでが「？」ボタンの修正 ★★★ */
+        .help-icon:hover {
+            transform: scale(1.1);
+        }
         
+        /* ポップアップ */
+        .help-popup {
+            visibility: hidden; /* ★ JSで .show をトグルする */
+            opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s;
+            position: absolute;
+            background-color: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 150%; /* ★ 横幅を広げて読みやすく */
+            font-size: 14px;
+            z-index: 10;
+            margin-top: 30px; /* ★ 入力欄と被らないように調整 */
+            left: -25%; /* ★ 位置調整 */
+        }
+        .help-popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* 入力欄 */
         input[type="date"], input[type="number"] {
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px; /* ★ 角を少し丸く */
             font-size: 16px;
             width: 100%;
             box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input[type="date"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--enji-color); /* ★ フォーカス色を臙脂色に */
+            box-shadow: 0 0 5px rgba(146, 39, 73, 0.2); /* ★ 影を追加 */
         }
         .input-note {
             font-size: 12px;
             color: #7f8c8d;
             margin-top: 4px;
         }
+
+        /* 計画作成ボタン */
         button {
             width: 100%;
             padding: 12px;
-            background-color: #3498db;
+            background-color: var(--enji-color); /* ★ 臙脂色に変更 */
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px; /* ★ 角を丸く */
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s;
             margin-top: 10px;
         }
         button:hover {
-            background-color: #2980b9;
+            background-color: #7a203d; /* ★ 少し濃い臙脂色 */
+            transform: scale(1.02);
         }
+
+        /* 結果表示 */
         #output {
             margin-top: 30px;
         }
@@ -160,10 +201,11 @@
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
-            color: #34495e;
-            background-color: #ecf0f1;
-            padding: 8px;
-            border-radius: 5px;
+            color: var(--dark-text);
+            background-color: var(--bg-color); /* ★ 背景色と合わせる */
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
         }
         table {
             width: 100%;
@@ -173,23 +215,23 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--light-gray);
         }
         th {
-            background-color: #ecf0f1;
-            color: #34495e;
+            background-color: #fffafa; /* ★ ほんのり色付け */
+            color: var(--enji-color); /* ★ ヘッダーを臙脂色に */
             font-weight: 600;
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #fffafa; /* ★ 縞模様の色を変更 */
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>覇者への道　～テーパリング～</h1>
-
+        <h1>テーパリング＿覇者への道</h1>
+        
         <div class="principles">
             <h2>原則</h2>
             <ul>
@@ -198,39 +240,43 @@
                 <li><strong>頻度</strong> → 維持（80％程度）</li>
             </ul>
         </div>
+        
         <div class="input-grid">
             <div class="input-group">
                 <label for="raceDate">① 試合日</label>
                 <input type="date" id="raceDate">
             </div>
+            
             <div class="input-group">
-				<div class="label-group">
-                	<label for="taperDuration">② テーパリング期間 (日)</label>
+                <div class="label-group">
+                    <label for="taperDuration">② テーパリング期間 (日)</label>
                     <span class="help-icon" data-target="help-duration">?</span>
-				</div>
+                </div>
                 <input type="number" id="taperDuration" value="10" min="1">
                 <p class="input-note">標準は8-14日</p>
                 <div id="help-duration" class="help-popup">
                     1. 練習が積めていない → 短く<br>
                     2. 試合の距離が短い → 短く
                 </div>
-			</div>
+            </div>
+            
             <div class="input-group">
-				<div class="label-group">
-                	<label for="finalLoad">③ 最終日負荷 (%)
+                <div class="label-group">
+                    <label for="finalLoad">③ 最終日負荷 (%)</label>
                     <span class="help-icon" data-target="help-load">?</span>
                 </div>
                 <input type="number" id="finalLoad" value="50" min="1" max="99">
                 <p class="input-note">標準は40-60%</p>
                 <div id="help-load" class="help-popup">
                     1. 練習が積めていない → 大きく
-                    2. 疲労が抜けにくい → 小さく
-            	</div>
-			</div>
+					2. 疲労が抜けにくい → 小さく
+                </div>
+            </div>
+
             <div class="input-group">
                 <label for="initialDistance">④ 1日の平均走行距離 (km)</label>
                 <input type="number" id="initialDistance" value="20" min="1">
-                <p class="input-note">直近3週間の一日の平均走行距離（月曜のノーランなど外れ値は除く）</p>
+                <p class="input-note">直近3週間の一日の平均走行距離（ただし月曜など外れ値は除く）</p>
             </div>
         </div>
 
@@ -245,7 +291,6 @@
             const raceDateStr = document.getElementById('raceDate').value;
             const taperDuration = parseInt(document.getElementById('taperDuration').value);
             const finalLoad = parseFloat(document.getElementById('finalLoad').value);
-            // ★★★ 修正点：1日の平均走行距離を直接取得
             const initialDistance = parseFloat(document.getElementById('initialDistance').value);
 
             if (!raceDateStr || isNaN(taperDuration) || isNaN(finalLoad) || isNaN(initialDistance) || taperDuration < 2 || initialDistance <= 0) {
@@ -274,6 +319,7 @@
 
                 if (daysOut > 0) {
                     const i = taperDuration - daysOut + 1;
+                    // 初日から削減が始まるロジック
                     const distance = initialDistance * Math.exp(-i / tau);
                     distanceStr = `${distance.toFixed(1)} km`;
                 } else {
@@ -306,48 +352,39 @@
             tableHTML += '</tbody></table>';
             outputDiv.innerHTML += tableHTML;
         });
+
         /* ▼▼▼ ここから「？」ボタン機能 ▼▼▼ */
-    // ヘルプボタンの機能をまとめて設定（クリックでトグル式）
-    document.querySelectorAll('.help-icon').forEach(icon => {
-        const targetId = icon.getAttribute('data-target');
-        const popup = document.getElementById(targetId);
-        if (!popup) return;
+        // ヘルプボタンの機能をまとめて設定（クリックでトグル式）
+        document.querySelectorAll('.help-icon').forEach(icon => {
+            const targetId = icon.getAttribute('data-target');
+            const popup = document.getElementById(targetId);
+            if (!popup) return;
 
-        icon.addEventListener('click', (e) => {
-            e.stopPropagation(); // クリックイベントが外側に伝わらないようにする
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation(); // クリックイベントが外側に伝わらないようにする
 
-            // 自分以外のポップアップが既に開いていたら閉じる
-            document.querySelectorAll('.help-popup.show').forEach(openPopup => {
-                if (openPopup !== popup) {
-                    openPopup.classList.remove('show');
-                }
+                // 自分以外のポップアップが既に開いていたら閉じる
+                document.querySelectorAll('.help-popup.show').forEach(openPopup => {
+                    if (openPopup !== popup) {
+                        openPopup.classList.remove('show');
+                    }
+                });
+
+                // 自分の表示・非表示を切り替える
+                popup.classList.toggle('show');
             });
-
-            // 自分の表示・非表示を切り替える
-            popup.classList.toggle('show');
         });
-    });
 
-    // ポップアップの外側をクリックしたら、開いているポップアップを閉じる
-    document.addEventListener('click', (e) => {
-        // クリックしたのがポップアップ自身やアイコンでなければ
-        if (!e.target.closest('.help-popup') && !e.target.closest('.help-icon')) {
-            document.querySelectorAll('.help-popup.show').forEach(openPopup => {
-                openPopup.classList.remove('show');
-            });
-        }
-    });
-/* ▲▲▲ ここまで「？」ボタン機能 ▲▲▲ */
+        // ポップアップの外側をクリックしたら、開いているポップアップを閉じる
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.help-popup') && !e.target.closest('.help-icon')) {
+                document.querySelectorAll('.help-popup.show').forEach(openPopup => {
+                    openPopup.classList.remove('show');
+                });
+            }
+        });
+        /* ▲▲▲ ここまで「？」ボタン機能 ▲▲▲ */
     </script>
 
 </body>
-
 </html>
-
-
-
-
-
-
-
-
