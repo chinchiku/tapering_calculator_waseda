@@ -140,6 +140,35 @@
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
+        .help-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #95a5a6;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    font-size: 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    user-select: none; /* 長押しでテキストが選択されるのを防ぐ */
+}
+.help-popup {
+    display: none; /* 通常は隠しておく */
+    position: absolute;
+    background-color: #34495e;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 540px;
+    font-size: 14px;
+    z-index: 10;
+    margin-top: 5px; /* ボタンとの隙間 */
+}
         }
     </style>
 </head>
@@ -162,19 +191,27 @@
                 <input type="date" id="raceDate">
             </div>
             <div class="input-group">
-                <label for="taperDuration">② テーパリング期間 (日)</label>
+                <label for="taperDuration">② テーパリング期間 (日)
+                    <span class="help-icon" data-target="help-duration">?</span>
+                </label>
                 <input type="number" id="taperDuration" value="10" min="1">
                 <p class="input-note">標準は8-14日</p>
+                <div id="help-duration" class="help-popup">
+                    Wang et al. (2023) のメタ分析では、8-14日間が最も高い効果を示しました。ただし、Mujika & Padilla (2003) によれば、期間は個人の疲労度に合わせて4-28日と幅広く設定可能です。練習が積めていない（疲労が少ない）場合は、体力の低下を防ぐため、より短く設定するのが一般的です。
             </div>
             <div class="input-group">
-                <label for="finalLoad">③ 最終日負荷 (%)</label>
+                <label for="finalLoad">③ 最終日負荷 (%)
+                    <span class="help-icon" data-target="help-load">?</span>
+                </label>
                 <input type="number" id="finalLoad" value="50" min="1" max="99">
-                <p class="input-note">標準は40-60%に設定</p>
+                <p class="input-note">標準は40-60%</p>
             </div>
             <div class="input-group">
                 <label for="initialDistance">④ 1日の平均走行距離 (km)</label>
                 <input type="number" id="initialDistance" value="20" min="1">
                 <p class="input-note">直近3週間の一日の平均走行距離（月曜のノーランなど外れ値は除く）</p>
+                <div id="help-load" class="help-popup">
+                    テーパー初日の練習量（100%）に対し、テーパー最終日までに何%まで量を減らすかの目標値です。Wang et al. (2023) の分析では総量41-60%の削減が最も効果的とされました。これは最終日負荷を40-60%に設定することに相当します。
             </div>
         </div>
 
@@ -250,11 +287,39 @@
             tableHTML += '</tbody></table>';
             outputDiv.innerHTML += tableHTML;
         });
+        document.querySelectorAll('.help-icon').forEach(icon => {
+        const targetId = icon.getAttribute('data-target');
+        const popup = document.getElementById(targetId);
+
+        if (!popup) return;
+
+        const showHelp = () => {
+            popup.style.display = 'block';
+        };
+
+        const hideHelp = () => {
+            popup.style.display = 'none';
+        };
+
+        // PC：マウスで長押し
+        icon.addEventListener('mousedown', showHelp);
+        icon.addEventListener('mouseup', hideHelp);
+        icon.addEventListener('mouseleave', hideHelp); // ボタンからマウスが離れたら消す
+
+        // スマホ：タップで長押し
+        icon.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // 画面スクロールを防ぐ
+            showHelp();
+        });
+        icon.addEventListener('touchend', hideHelp);
+        icon.addEventListener('touchcancel', hideHelp);
+    });
     </script>
 
 </body>
 
 </html>
+
 
 
 
